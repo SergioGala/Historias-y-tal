@@ -1,7 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 
-
-
 const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
@@ -9,25 +7,19 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  ${props => {
+    console.log('GlobalStyles props:', props);
+    return '';
+  }}
+
   body {
-    font-family: ${({ theme }) => theme.typography.fonts.primary};
-    background-color: ${({ theme }) => theme.colors.background.primary};
-    color: ${({ theme }) => theme.colors.text.primary};
+    font-family: ${props => {
+      console.log('Theme in body:', props.theme);
+      return props.theme?.typography?.fonts?.primary || 'sans-serif';
+    }};
+    background-color: ${props => props.theme?.colors?.background?.primary || '#fff'};
+    color: ${props => props.theme?.colors?.text?.primary || '#000'};
     line-height: 1.5;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: ${({ theme }) => theme.typography.fonts.secondary};
-    margin-bottom: ${({ theme }) => theme.spacing.md};
-  }
-
-  button {
-    cursor: pointer;
-  }
-
-  a {
-    text-decoration: none;
-    color: inherit;
   }
 `;
 
