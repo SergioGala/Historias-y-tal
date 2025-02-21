@@ -232,6 +232,6 @@ export const StyledButton = styled.button`
     border-radius: 50%;
     transform: scale(0);
     animation: ${ripple} 0.8s linear;
-    background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.7) 0%, rgba(255, 0, 0, 0.64));
   }
 `;
