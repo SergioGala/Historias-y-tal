@@ -92,7 +92,7 @@ export const tokens = {
         900: '#0F172A',
       }
     },
-    // El resto de tokens se mantiene igual...
+  
     typography: {
       fonts: {
         primary: "'Inter', sans-serif",
