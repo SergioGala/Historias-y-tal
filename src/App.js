@@ -541,6 +541,15 @@ function App() {
                   </Button>
                 </Flex>
                 <Flex gap="md" wrap="wrap" align="center">
+                  <Button variant="toxic" size="sm">
+                    Small
+                  </Button>
+                  <Button variant="toxic">Medium</Button>
+                  <Button variant="toxic" size="lg">
+                    Large
+                  </Button>
+                </Flex>
+                <Flex gap="md" wrap="wrap" align="center">
                   <Button variant="rainbow" size="sm">
                     Small
                   </Button>
