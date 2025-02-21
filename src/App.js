@@ -94,7 +94,7 @@ function App() {
               </SubTitle>
             </div>
             <Button
-              variant={isDark ? "rainbow" : "primary"}
+              variant={isDark ? "danger" : "primary"}
               onClick={() => setIsDark(!isDark)}
             >
               {isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro"}
