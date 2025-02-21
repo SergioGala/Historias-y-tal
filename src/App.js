@@ -650,6 +650,17 @@ function App() {
   </ComponentWrapper>
 
   <ComponentWrapper $dark={isDark}>
+    <h3 style={{ marginBottom: '1rem', color: isDark ? '#fff' : '#333' }}>Cyberpunk Style</h3>
+    <Flex gap="md" wrap="wrap">
+      <Button variant="secondary" size="sm">SMALL TOXIC</Button>
+      <Button variant="secondary">MEDIUM TOXIC</Button>
+      <Button variant="secondary" size="lg">LARGE TOXIC</Button>
+      <Button variant="secondary" loading>LOADING TOXIC</Button>
+      <Button variant="secondary" disabled>DISABLED TOXIC</Button>
+    </Flex>
+  </ComponentWrapper>
+
+  <ComponentWrapper $dark={isDark}>
     <h3 style={{ marginBottom: '1rem', color: isDark ? '#fff' : '#333' }}>Rainbow Style</h3>
     <Flex gap="md" wrap="wrap">
       <Button variant="rainbow" size="sm">SMALL RAINBOW</Button>
