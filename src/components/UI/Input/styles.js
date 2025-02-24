@@ -123,7 +123,9 @@ const getVariantStyles = (variant = 'default', theme) => {
           #48ff00,
           #00ffd5
         );
-        -webkit-background-clip: text;
+        background-clip: text;
+-webkit-background-clip: text;
+background-clip: padding-box;
         color: transparent;
       }
     `,

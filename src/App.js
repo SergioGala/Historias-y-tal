@@ -10,6 +10,10 @@ import Grid from "./components/Layout/Grid";
 import Flex from "./components/Layout/Flex";
 import Button from "./components/UI/Button";
 import Input from "./components/UI/Input";
+import Card from "./components/UI/Card";
+import Modal from "./components/UI/Modal";
+import Dropdown from "./components/UI/Dropdown";
+
 
 // Styled Components para la demo
 const DemoBox = styled.div`
@@ -68,6 +72,11 @@ const SubTitle = styled.p`
 function App() {
   const [loading, setLoading] = useState({});
   const [isDark, setIsDark] = useState(true);
+  const [modalOpen, setModalOpen] = useState(null);
+  const [selected1, setSelected1] = useState(null);
+  const [selected2, setSelected2] = useState(null);
+  const [selected3, setSelected3] = useState(null);
+  const [selected4, setSelected4] = useState(null);
 
   const handleClick = (buttonId) => {
     setLoading((prev) => ({ ...prev, [buttonId]: true }));
@@ -363,6 +372,238 @@ function App() {
               </Flex>
             </ComponentWrapper>
           </DemoSection>
+
+          {/* Cards Showcase */}
+{/* Cards Showcase */}
+<DemoSection $dark={isDark}>
+  <h2>🎴 Cards Showcase</h2>
+  
+  <ComponentWrapper $dark={isDark}>
+    <h3 style={{ marginBottom: '1rem', color: isDark ? '#fff' : '#333' }}>Estado Cards</h3>
+    <Grid columns={3} gap="lg">
+      <Card variant="success" dark={isDark}>
+        <h3>Success Card</h3>
+        <p>Todo ha salido bien</p>
+        <Button variant="success" size="sm" style={{ marginTop: '1rem' }}>
+          Continuar
+        </Button>
+      </Card>
+
+      <Card variant="danger" dark={isDark}>
+        <h3>Danger Card</h3>
+        <p>Algo ha salido mal</p>
+        <Button variant="danger" size="sm" style={{ marginTop: '1rem' }}>
+          Retry
+        </Button>
+      </Card>
+
+      <Card variant="default" dark={isDark}>
+        <h3>Default Card</h3>
+        <p>Estilo básico mejorado</p>
+        <Button variant="primary" size="sm" style={{ marginTop: '1rem' }}>
+          Action
+        </Button>
+      </Card>
+    </Grid>
+  </ComponentWrapper>
+
+  <ComponentWrapper $dark={isDark}>
+    <h3 style={{ marginBottom: '1rem', color: isDark ? '#fff' : '#333' }}>Special Effect Cards</h3>
+    <Grid columns={2} gap="lg">
+      <Card variant="cyber" dark={isDark}>
+        <h3>Cyber Card</h3>
+        <p>Con efectos cyberpunk y bordes neón</p>
+        <Button variant="primary" size="sm" style={{ marginTop: '1rem' }}>
+          Execute
+        </Button>
+      </Card>
+
+      <Card variant="alien" dark={isDark}>
+        <h3>Alien Card</h3>
+        <p>Estilo alienígena con hover flotante</p>
+        <Button variant="success" size="sm" style={{ marginTop: '1rem' }}>
+          Probe
+        </Button>
+      </Card>
+    </Grid>
+  </ComponentWrapper>
+
+  <ComponentWrapper $dark={isDark}>
+    <h3 style={{ marginBottom: '1rem', color: isDark ? '#fff' : '#333' }}>Fancy Cards</h3>
+    <Grid columns={2} gap="lg">
+      <Card variant="rainbow" dark={isDark}>
+        <h3>Rainbow Card</h3>
+        <p>Con gradientes de arcoíris animados</p>
+        <Button variant="rainbow" size="sm" style={{ marginTop: '1rem' }}>
+          Colorize
+        </Button>
+      </Card>
+
+      <Card variant="neon" dark={isDark}>
+        <h3>Neon Card</h3>
+        <p>Con efectos de neón brillante</p>
+        <Button variant="neon" size="sm" style={{ marginTop: '1rem' }}>
+          Glow
+        </Button>
+      </Card>
+    </Grid>
+  </ComponentWrapper>
+</DemoSection>
+
+{/* Modal Showcase */}
+<DemoSection $dark={isDark}>
+  <h2>🪟 Modal Showcase</h2>
+  
+  <ComponentWrapper $dark={isDark}>
+    <h3 style={{ marginBottom: '1rem', color: isDark ? '#fff' : '#333' }}>Modal Examples</h3>
+    <Flex gap="md" wrap="wrap">
+      <Button variant="primary" onClick={() => setModalOpen('default')}>
+        Default Modal
+      </Button>
+      <Button variant="rainbow" onClick={() => setModalOpen('rainbow')}>
+        Rainbow Modal
+      </Button>
+      <Button variant="neon" onClick={() => setModalOpen('neon')}>
+        Neon Modal
+      </Button>
+      <Button variant="primary" onClick={() => setModalOpen('cyber')}>
+        Cyber Modal
+      </Button>
+    </Flex>
+  </ComponentWrapper>
+
+  {/* Default Modal */}
+  <Modal 
+    isOpen={modalOpen === 'default'} 
+    onClose={() => setModalOpen(null)}
+    dark={isDark}
+  >
+    <h2 style={{ marginBottom: '1rem' }}>Default Modal</h2>
+    <p style={{ marginBottom: '2rem' }}>This is a basic modal with clean styling.</p>
+    <Flex justify="flex-end" gap="md">
+      <Button variant="secondary" onClick={() => setModalOpen(null)}>Cancel</Button>
+      <Button variant="primary">Confirm</Button>
+    </Flex>
+  </Modal>
+
+  {/* Rainbow Modal */}
+  <Modal 
+    isOpen={modalOpen === 'rainbow'} 
+    onClose={() => setModalOpen(null)}
+    variant="rainbow"
+    dark={isDark}
+  >
+    <h2 style={{ marginBottom: '1rem' }}>Rainbow Modal</h2>
+    <p style={{ marginBottom: '2rem' }}>
+      This modal features animated rainbow gradients.
+    </p>
+    <Flex justify="flex-end">
+      <Button variant="rainbow">Awesome!</Button>
+    </Flex>
+  </Modal>
+
+  {/* Neon Modal */}
+  <Modal 
+    isOpen={modalOpen === 'neon'} 
+    onClose={() => setModalOpen(null)}
+    variant="neon"
+    dark={isDark}
+  >
+    <h2 style={{ marginBottom: '1rem' }}>Neon Modal</h2>
+    <p style={{ marginBottom: '2rem' }}>
+      A glowing neon-styled modal with vibrant effects.
+    </p>
+    <Flex justify="flex-end">
+      <Button variant="neon">Glow!</Button>
+    </Flex>
+  </Modal>
+
+  {/* Cyber Modal */}
+  <Modal 
+    isOpen={modalOpen === 'cyber'} 
+    onClose={() => setModalOpen(null)}
+    variant="cyber"
+    dark={isDark}
+  >
+    <h2 style={{ marginBottom: '1rem' }}>Cyber Modal</h2>
+    <Card variant="cyber" dark={isDark} style={{ marginBottom: '1rem' }}>
+      <p>A cyberpunk styled modal with a matching card inside!</p>
+    </Card>
+    <Flex justify="flex-end">
+      <Button variant="primary">Execute</Button>
+    </Flex>
+  </Modal>
+</DemoSection>
+
+{/* Dropdown Showcase */}
+<DemoSection $dark={isDark}>
+  <h2>📝 Dropdown Showcase</h2>
+  
+  <ComponentWrapper $dark={isDark}>
+    <h3 style={{ marginBottom: '1rem', color: isDark ? '#fff' : '#333' }}>Default & Cyber</h3>
+    <Flex gap="xl" wrap="wrap">
+      <Dropdown
+        options={[
+          { value: 'edit', label: 'Edit Profile', icon: '✏️' },
+          { value: 'settings', label: 'Settings', icon: '⚙️' },
+         
+          { value: 'logout', label: 'Logout', icon: '🚪' },
+        ]}
+        selected={selected1}
+        onSelect={setSelected1}
+        placeholder="Default Dropdown"
+        dark={isDark}
+      />
+
+      <Dropdown
+        variant="cyber"
+        options={[
+          { value: 'hack', label: 'Initiate Hack', icon: '🔓' },
+          { value: 'scan', label: 'Neural Scan', icon: '🧠' },
+          
+          { value: 'download', label: 'Download Data', icon: '💾' },
+        ]}
+        selected={selected2}
+        onSelect={setSelected2}
+        placeholder="Cyber Dropdown"
+        dark={isDark}
+      />
+    </Flex>
+  </ComponentWrapper>
+
+  <ComponentWrapper $dark={isDark}>
+    <h3 style={{ marginBottom: '1rem', color: isDark ? '#fff' : '#333' }}>Neon & Rainbow</h3>
+    <Flex gap="xl" wrap="wrap">
+      <Dropdown
+        variant="neon"
+        options={[
+          { value: 'matrix', label: 'Enter Matrix', icon: '🌐' },
+          { value: 'code', label: 'View Code', icon: '👁️' },
+          { divider: true },
+          { value: 'exit', label: 'Emergency Exit', icon: '🚨' },
+        ]}
+        selected={selected3}
+        onSelect={setSelected3}
+        placeholder="Neon Dropdown"
+        dark={isDark}
+      />
+
+      <Dropdown
+        variant="rainbow"
+        options={[
+          { value: 'unicorn', label: 'Ride Unicorn', icon: '🦄' },
+          { value: 'rainbow', label: 'Follow Rainbow', icon: '🌈' },
+          { divider: true },
+          { value: 'magic', label: 'Cast Magic', icon: '✨' },
+        ]}
+        selected={selected4}
+        onSelect={setSelected4}
+        placeholder="Rainbow Dropdown"
+        dark={isDark}
+      />
+    </Flex>
+  </ComponentWrapper>
+</DemoSection>
 
           {/* Buttons */}
           <DemoSection $dark={isDark}>
