@@ -23,12 +23,6 @@ const slideIn = keyframes`
   }
 `;
 
-const glowPulse = keyframes`
-  0% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.5); }
-  100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-`;
-
 const rainbowGradient = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
