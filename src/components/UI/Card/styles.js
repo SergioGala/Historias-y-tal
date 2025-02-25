@@ -12,11 +12,6 @@ const gradientMove = keyframes`
   100% { background-position: 0% 50%; }
 `;
 
-const pulseGlow = keyframes`
-  0% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
-  100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.2); }
-`;
 
 // Función para asegurar buen contraste del texto
 const getTextColor = ($dark, baseColor) => {

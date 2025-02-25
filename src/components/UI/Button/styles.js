@@ -1,3 +1,4 @@
+// src/components/UI/Button/styles.js
 import styled, { css, keyframes } from 'styled-components';
 
 const ripple = keyframes`
@@ -11,40 +12,21 @@ const ripple = keyframes`
   }
 `;
 
+const wobble = keyframes`
+  0%, 100% { transform: rotate(0) scale(1); }
+  25% { transform: rotate(-3deg) scale(1.05); }
+  75% { transform: rotate(3deg) scale(1.05); }
+`;
+
+const float = keyframes`
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+`;
+
 const rainbow = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-`;
-
-const neonPulse = keyframes`
-  0% {
-    box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px currentColor, 0 0 20px currentColor;
-  }
-  100% {
-    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px currentColor, 0 0 40px currentColor;
-  }
-`;
-
-const glitch = keyframes`
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(-2px, -2px);
-  }
-  60% {
-    transform: translate(2px, 2px);
-  }
-  80% {
-    transform: translate(2px, -2px);
-  }
-  100% {
-    transform: translate(0);
-  }
 `;
 
 const spin = keyframes`
@@ -52,47 +34,42 @@ const spin = keyframes`
   to { transform: rotate(360deg); }
 `;
 
-const getVariantStyles = (variant, theme) => {
+// Cambiado para usar $variant en lugar de variant
+const getVariantStyles = ($variant, theme) => {
   const variants = {
     primary: css`
-      background: linear-gradient(
-        135deg,
-        ${theme.colors.gradients.cyberpunk.from} 0%,
-        ${theme.colors.gradients.cyberpunk.via} 50%,
-        ${theme.colors.gradients.cyberpunk.to} 100%
-      );
-      background-size: 300% 300%;
+      background-color: ${theme.colors.primary};
       color: white;
-      text-shadow: 0 0 5px rgba(255,255,255,0.5);
-      animation: ${rainbow} 5s ease infinite;
-
+      border-radius: ${theme.radii.xl};
+      box-shadow: 0 5px 0 ${theme.colors.primary}99;
+      transform-style: preserve-3d;
+      
       &:hover {
-        animation: ${rainbow} 3s ease infinite;
-        box-shadow: 
-          0 0 10px ${theme.colors.gradients.cyberpunk.from},
-          0 0 20px ${theme.colors.gradients.cyberpunk.via},
-          0 0 30px ${theme.colors.gradients.cyberpunk.to};
-        text-shadow: 0 0 10px white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 0 ${theme.colors.primary}99;
+        animation: ${wobble} 0.6s ease-in-out;
+      }
+      
+      &:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 ${theme.colors.primary}99;
       }
     `,
     secondary: css`
-      background: linear-gradient(
-        135deg,
-        ${theme.colors.gradients.toxic.from} 0%,
-        ${theme.colors.gradients.toxic.via} 50%,
-        ${theme.colors.gradients.toxic.to} 100%
-      );
-      background-size: 300% 300%;
-      color: black;
-      text-shadow: 0 0 5px rgba(255,255,255,0.5);
-      animation: ${rainbow} 5s ease infinite;
-      border: 2px solid transparent;
-
+      background-color: ${theme.colors.secondary};
+      color: white;
+      border-radius: ${theme.radii.xl};
+      box-shadow: 0 5px 0 ${theme.colors.secondary}99;
+      
       &:hover {
-        animation: 
-          ${rainbow} 3s ease infinite,
-          ${neonPulse} 1s ease-in-out infinite alternate;
-        text-shadow: 0 0 10px black;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 0 ${theme.colors.secondary}99;
+        animation: ${wobble} 0.6s ease-in-out;
+      }
+      
+      &:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 ${theme.colors.secondary}99;
       }
     `,
     rainbow: css`
@@ -108,60 +85,90 @@ const getVariantStyles = (variant, theme) => {
       );
       background-size: 700% 700%;
       color: white;
-      text-shadow: 0 0 5px rgba(0,0,0,0.5);
-      animation: ${rainbow} 10s linear infinite;
-
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      border-radius: ${theme.radii.xl};
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      font-weight: ${theme.fontWeights.bold};
+      animation: ${rainbow} 6s linear infinite;
+      
       &:hover {
         animation: ${rainbow} 3s linear infinite;
-        box-shadow: 
-          0 0 10px rgba(255,255,255,0.5),
-          0 0 20px rgba(255,255,255,0.3),
-          0 0 30px rgba(255,255,255,0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      }
+      
+      &:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       }
     `,
-    danger: css`
+    cloud: css`
+      background-color: ${theme.name === 'dark' ? '#4B5563' : 'white'};
+      color: ${theme.name === 'dark' ? 'white' : theme.colors.text};
+      border-radius: ${theme.radii.cloud};
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      font-weight: ${theme.fontWeights.bold};
+      animation: ${float} 3s ease-in-out infinite;
+      
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        background-color: ${theme.name === 'dark' ? '#606B7D' : 'white'};
+      }
+      
+      &:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+    `,
+    candy: css`
       background: linear-gradient(
         135deg,
-        ${theme.colors.gradients.lava.from} 0%,
-        ${theme.colors.gradients.lava.via} 50%,
-        ${theme.colors.gradients.lava.to} 100%
+        ${theme.colors.gradients.candy.from} 0%,
+        ${theme.colors.gradients.candy.via} 50%,
+        ${theme.colors.gradients.candy.to} 100%
       );
-      background-size: 300% 300%;
+      color: #2B2D42;
+      border-radius: ${theme.radii.pill};
+      box-shadow: 0 5px 0 ${theme.colors.gradients.candy.via}99;
+      font-weight: ${theme.fontWeights.bold};
+      
+      &:hover {
+        transform: translateY(-3px) rotate(-1deg);
+        box-shadow: 0 8px 0 ${theme.colors.gradients.candy.via}99;
+      }
+      
+      &:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 ${theme.colors.gradients.candy.via}99;
+      }
+    `,
+    ocean: css`
+      background: linear-gradient(
+        135deg,
+        ${theme.colors.gradients.ocean.from} 0%,
+        ${theme.colors.gradients.ocean.via} 50%,
+        ${theme.colors.gradients.ocean.to} 100%
+      );
       color: white;
-      text-shadow: 0 0 5px rgba(255,0,0,0.5);
-      animation: ${rainbow} 5s ease infinite;
-
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      border-radius: ${theme.radii.xl};
+      box-shadow: 0 5px 0 ${theme.colors.gradients.ocean.via}99;
+      
       &:hover {
-        animation: 
-          ${rainbow} 3s ease infinite,
-          ${glitch} 0.3s ease infinite;
-        box-shadow: 
-          0 0 10px ${theme.colors.gradients.lava.from},
-          0 0 20px ${theme.colors.gradients.lava.via};
+        transform: translateY(-3px);
+        box-shadow: 0 8px 0 ${theme.colors.gradients.ocean.via}99;
+        animation: ${wobble} 0.6s ease-in-out;
       }
-    `,
-    alien: css`
-      background: linear-gradient(
-        135deg,
-        ${theme.colors.gradients.alien.from} 0%,
-        ${theme.colors.gradients.alien.via} 50%,
-        ${theme.colors.gradients.alien.to} 100%
-      );
-      background-size: 300% 300%;
-      color: black;
-      text-shadow: 0 0 5px rgba(255,255,255,0.5);
-      animation: ${rainbow} 5s ease infinite;
-      border: 2px solid transparent;
-
-      &:hover {
-        animation: 
-          ${rainbow} 3s ease infinite,
-          ${neonPulse} 1s ease-in-out infinite alternate;
-        letter-spacing: 2px;
+      
+      &:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 ${theme.colors.gradients.ocean.via}99;
       }
     `
   };
-  return variants[variant];
+  
+  return variants[$variant] || variants.primary;
 };
 
 export const StyledButton = styled.button`
@@ -177,27 +184,25 @@ export const StyledButton = styled.button`
     };
     return sizes[size] || sizes.md;
   }};
-  font-family: 'Inter', sans-serif;
+  font-family: ${({ theme }) => theme.fonts.body};
   font-weight: 600;
   font-size: ${({ size }) => {
     const sizes = {
       sm: '0.875rem',
-      md: '1rem',
+      md: '1.1rem',
       lg: '1.25rem'
     };
     return sizes[size] || sizes.md;
   }};
   line-height: 1.5;
-  border-radius: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
   letter-spacing: 1px;
   border: none;
-  transform-style: preserve-3d;
-  perspective: 1000px;
+  width: ${({ $fullWidth }) => $fullWidth ? '100%' : 'auto'};
   
-  ${({ variant, theme }) => getVariantStyles(variant, theme)}
+  ${({ $variant, theme }) => getVariantStyles($variant, theme)}
 
   &:active {
     transform: translateY(2px) scale(0.98);
@@ -210,7 +215,7 @@ export const StyledButton = styled.button`
     filter: grayscale(50%);
   `}
 
-  ${({ loading }) => loading && css`
+  ${({ $loading }) => $loading && css`
     cursor: wait;
     pointer-events: none;
     
@@ -232,6 +237,6 @@ export const StyledButton = styled.button`
     border-radius: 50%;
     transform: scale(0);
     animation: ${ripple} 0.8s linear;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.7) 0%, rgba(255, 0, 0, 0.64));
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
   }
 `;

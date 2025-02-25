@@ -8,6 +8,7 @@ const Button = ({
   size = 'md',
   disabled = false,
   loading = false,
+  fullWidth = false,
   onClick,
   ...props 
 }) => {
@@ -45,10 +46,11 @@ const Button = ({
 
   return (
     <StyledButton
-      variant={variant}
+      $variant={variant} // Cambio de variant a $variant
       size={size}
       disabled={disabled}
-      loading={loading}
+      $loading={loading}
+      $fullWidth={fullWidth}
       onClick={handleClick}
       {...props}
     >

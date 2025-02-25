@@ -2,18 +2,9 @@
 import React from 'react';
 import { StyledSection } from './styles';
 
-const Section = ({ 
-  children, 
-  variant = 'primary',
-  spacing = 'md',
-  ...props 
-}) => {
+const Section = ({ children, variant = 'default', ...props }) => {
   return (
-    <StyledSection 
-      $variant={variant}
-      $spacing={spacing}
-      {...props}
-    >
+    <StyledSection $variant={variant} {...props}>
       {children}
     </StyledSection>
   );

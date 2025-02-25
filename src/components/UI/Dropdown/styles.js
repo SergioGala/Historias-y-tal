@@ -11,11 +11,6 @@ const slideDown = keyframes`
   }
 `;
 
-const glowingBorder = keyframes`
-  0% { border-color: rgba(99, 102, 241, 0.5); }
-  50% { border-color: rgba(99, 102, 241, 1); }
-  100% { border-color: rgba(99, 102, 241, 0.5); }
-`;
 
 const gradientMove = keyframes`
   0% { background-position: 0% 50%; }
