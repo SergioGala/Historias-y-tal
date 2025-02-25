@@ -19,6 +19,19 @@ const wiggle = keyframes`
   75% { transform: rotate(5deg); }
 `;
 
+const linkHoverEffect = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
+// Para efectos de escala en el logo
+const pulse = keyframes`
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+`;
+
+
 // Componente principal del Navbar
 export const NavbarContainer = styled.nav`
   position: fixed;
@@ -70,24 +83,41 @@ export const Logo = styled.a`
   display: flex;
   align-items: center;
   z-index: 1001;
-  margin-right: 30px; /* Añadir margen para separarlo del enlace de Historias */
+  margin-right: 90px;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+    
+    img {
+      animation: ${pulse} 1s ease infinite;
+    }
+    
+    h1 {
+      letter-spacing: 2px;
+    }
+  }
 `;
 
 export const LogoImage = styled.img`
-  width: 40px;
+  width: 80px;
   height: 40px;
   margin-right: 10px;
   animation: ${wiggle} 6s ease-in-out infinite;
-  border-radius: 50%; /* Hacer la imagen redonda */
-  object-fit: cover; /* Asegurar que la imagen cubra bien el espacio */
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 0 20px ${({theme}) => theme.colors.primary}; 
+  }
 `;
-
 export const LogoText = styled.h1`
-  font-size: 1.7rem;
+  font-size: 1.8rem;
   font-weight: 700;
   margin: 0;
   letter-spacing: 1px;
-  white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
   
   ${({ $variant, theme }) => $variant === 'day' ? css`
     font-family: ${theme.fonts.heading};
@@ -129,6 +159,30 @@ export const NavLink = styled.a`
   align-items: center;
   justify-content: center;
   border-radius: ${({ theme }) => theme.radii.lg};
+  overflow: hidden;
+  
+  // Efecto de fondo con gradiente en hover
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      ${({ theme }) => theme.colors.primary}25,
+      ${({ theme }) => theme.colors.secondary}25,
+      ${({ theme }) => theme.colors.accent}25,
+      ${({ theme }) => theme.colors.secondary}25,
+      ${({ theme }) => theme.colors.primary}25
+    );
+    background-size: 200% 100%;
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
   
   ${({ $mobile }) => $mobile && css`
     font-size: 1.5rem;
@@ -141,26 +195,41 @@ export const NavLink = styled.a`
   &:hover {
     transform: translateY(-3px);
     color: ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.name === 'dark' ? 
-      'rgba(255, 255, 255, 0.1)' : 
-      'rgba(255, 107, 107, 0.1)'
-    };
+    
+    &::before {
+      opacity: 1;
+      animation: ${linkHoverEffect} 3s infinite;
+    }
   }
   
   ${({ $active, theme }) => $active && css`
     color: ${theme.colors.primary};
     font-weight: 700;
-    background: ${theme.name === 'dark' ? 
-      'rgba(255, 255, 255, 0.1)' : 
-      'rgba(255, 107, 107, 0.1)'
-    };
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 80%;
+      height: 3px;
+      background: linear-gradient(90deg, 
+        ${theme.colors.primary}, 
+        ${theme.colors.secondary},
+        ${theme.colors.accent},
+        ${theme.colors.secondary},
+        ${theme.colors.primary}
+      );
+      background-size: 200% 100%;
+      border-radius: 3px;
+      animation: ${linkHoverEffect} 3s infinite;
+    }
     
     &:hover {
       transform: none;
     }
   `}
 `;
-
 export const NavLinkText = styled.span`
   margin-left: 8px;
 `;
