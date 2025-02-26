@@ -244,7 +244,8 @@ export const NavLinkIcon = styled.div`
 export const AuthButtons = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
+  margin-top:3px;
   
   @media (max-width: 768px) {
     display: none;

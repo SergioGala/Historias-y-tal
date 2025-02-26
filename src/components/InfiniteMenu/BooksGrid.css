@@ -1,0 +1,433 @@
+/* Estilos para la cuadrícula de libros - VERSIÓN FINAL MEJORADA */
+.books-container {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.books-title {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.books-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+  perspective: 2000px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Estilos base para el libro */
+.book {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+  cursor: pointer;
+  margin: 0 auto;
+  max-width: 220px;
+}
+
+/* Libro cerrado */
+.book-cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px 12px 12px 4px;
+  transform-origin: left;
+  background-color: var(--book-color, #6c5ce7);
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  backface-visibility: hidden;
+  pointer-events: auto;
+}
+
+.book-spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 100%;
+  transform: translateX(-10px) rotateY(90deg);
+  background-color: var(--book-color, #6c5ce7);
+  transform-origin: left;
+  border-radius: 3px;
+  box-shadow: inset -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.book-title {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 20px;
+  transform: translateZ(1px);
+  backface-visibility: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.book-title h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+/* Hacer que el título desaparezca cuando el libro se abre */
+.book-open .book-title {
+  opacity: 0;
+}
+
+.book-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px 12px 12px 4px;
+  opacity: 0.4;
+}
+
+.book-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 10%),
+    radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 20%);
+}
+
+/* Libro abierto */
+.book-open {
+  transform: rotateY(-180deg);
+  z-index: 100;
+}
+
+.book-open .book-cover {
+  transform: rotateY(-180deg);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+}
+
+.book-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  transform: translateX(-27%) rotateY(180deg);
+  transform-origin: center;
+  backface-visibility: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.4s, opacity 0.4s;
+  z-index: 5;
+  pointer-events: none; /* Importante para asegurar que los eventos pasen al libro */
+}
+
+.book-open .book-content {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0.2s;
+  pointer-events: auto; /* Habilitar eventos cuando está abierto */
+}
+
+.left-page, .right-page {
+  height: 100%;
+  background-color: #f8f9fa;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.left-page {
+  border-right: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+}
+
+.right-page {
+  border-left: 1px solid #ddd;
+  border-radius: 0 4px 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenido en la página izquierda */
+.page-content {
+  padding: 25px;
+  color: #333;
+  text-align: left;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: var(--book-color, #6c5ce7);
+}
+
+.page-content p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* Imagen a página completa en la página derecha */
+.page-image-full {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease;
+}
+
+.page-image-full:hover {
+  transform: scale(1.05);
+}
+
+/* Estilo para la barra de desplazamiento */
+.page-content p::-webkit-scrollbar {
+  width: 6px;
+}
+
+.page-content p::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.page-content p::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.page-content p::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* Botón centrado */
+.read-button {
+  background-color: var(--book-color, #6c5ce7);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  align-self: center;
+  margin-top: auto;
+  margin-bottom: 20px;
+  z-index: 10; /* Asegurar que esté por encima */
+}
+
+.read-button .arrow {
+  margin-left: 6px;
+  transition: transform 0.3s;
+}
+
+.read-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.read-button:hover .arrow {
+  transform: translateX(3px);
+}
+
+.close-book {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 40px;
+  height: 40px;
+  background-color: #ff3b3b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 999; /* Valor muy alto para asegurar que esté por encima de todo */
+  pointer-events: auto !important; /* Fuerza la activación de eventos */
+  transform-style: flat; /* Importante para evitar conflictos de 3D */
+  backface-visibility: visible; /* Asegura que sea visible en todas las transformaciones */
+  /* Asegurar que todo el botón sea clickeable */
+  padding: 0;
+  outline: none;
+}
+
+.close-book:hover {
+  background-color: #ff0000;
+  transform: scale(1.1);
+}
+
+.close-book:active {
+  transform: scale(0.95);
+}
+
+/* Para asegurar que el botón reciba eventos de clic */
+.book-content {
+  /* Resto de estilos... */
+  transform-style: flat; /* Cambiado para evitar conflictos con el botón */
+}
+
+/* Agregar una capa transparente para aumentar el área clickeable */
+.close-book::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Para asegurar que el contenido dentro del botón también sea clickeable */
+.close-book span {
+  pointer-events: none;
+}
+
+/* Efectos de hover */
+.book:not(.book-open):hover {
+  transform: translateY(-10px) rotateX(5deg);
+}
+
+.book:not(.book-open):hover .book-cover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Media queries */
+@media (max-width: 1024px) {
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 30px;
+  }
+
+  .book {
+    height: 300px;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 25px;
+  }
+
+  .book {
+    height: 260px;
+    max-width: 170px;
+  }
+
+  .book-title h3 {
+    font-size: 1.5rem;
+  }
+
+  .page-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .page-content p {
+    font-size: 1rem;
+  }
+
+  .read-button {
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .books-title {
+    font-size: 2rem;
+  }
+
+  .books-subtitle {
+    font-size: 1rem;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+  }
+
+  .book {
+    height: 220px;
+    max-width: 140px;
+  }
+
+  .book-title h3 {
+    font-size: 1.3rem;
+  }
+
+  .page-content {
+    padding: 15px;
+  }
+
+  .page-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .page-content p {
+    font-size: 0.9rem;
+  }
+
+  .read-button {
+    padding: 7px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animaciones */
+@keyframes bookGlow {
+  0%, 100% {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 10px 30px rgba(var(--book-color-rgb, 108, 92, 231), 0.4);
+  }
+}
+
+/* Estilo extra para cuando hay un libro abierto */
+.book-open ~ .book {
+  opacity: 0.7;
+  transform: scale(0.95);
+}

@@ -1,4 +1,4 @@
-// src/App.js - Con personajes SVG animados mejorados
+// src/App.js - Con BooksGrid integrado
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import lightTheme from './styles/themes/lightTheme';
@@ -10,6 +10,15 @@ import Section from './components/Layout/Section';
 import Button from './components/UI/Button';
 import styled from 'styled-components';
 import AnimatedSvgCharacter from './components/AnimatedSvgCharacter.js';
+import BooksGrid from './components/InfiniteMenu/BooksGrid.js';
+import aventurasImg from './assets/images/categories/Aventuras.jpg';
+import fantasiaImg from './assets/images/categories/Fantasia.jpg';
+import animalesImg from './assets/images/categories/Animales.jpg';
+import espacioImg from './assets/images/categories/Espacio.jpg';
+import piratasImg from './assets/images/categories/Piratas.jpg';
+import princesasImg from './assets/images/categories/Princesas.jpg';
+import dinosauriosImg from './assets/images/categories/Dinosaurios.jpg';
+import misterioImg from './assets/images/categories/Misterio.jpg';
 
 // Componente de fondo simple
 const SimpleBackground = styled.div`
@@ -51,81 +60,19 @@ const DecorativeElement = styled.div`
   animation: ${props => props.$animation || 'none'};
 `;
 
-// Categoría con efectos de hover
-const CategoryCard = styled.div`
-  background: ${props => props.theme.name === 'light' ? '#FFFFFF' : '#3D4663'};
-  padding: 2rem;
-  border-radius: 1.5rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
+// Contenedor para la sección de libros
+const BooksSection = styled.div`
   position: relative;
-  overflow: hidden;
-  transform: translateY(0);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-  &:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    
-    &::after {
-      transform: scaleX(1);
-    }
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, 
-      ${props => props.theme.colors.primary}, 
-      ${props => props.theme.colors.secondary}
-    );
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-    border-bottom-left-radius: 1.5rem;
-    border-bottom-right-radius: 1.5rem;
-  }
-  
-  .icon {
-    margin-bottom: 1rem;
-    transition: all 0.4s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  &:hover .icon {
-    transform: scale(1.15) rotate(5deg);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  }
-  
-  h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.6rem;
-    transition: color 0.3s ease;
-    font-weight: 700;
-  }
-  
-  p {
-    font-size: 0.95rem;
-    color: ${props => props.theme.name === 'light' ? '#666' : '#AAA'};
-    transition: color 0.3s ease;
-    margin-top: 0;
-  }
-  
-  &:hover h3 {
-    color: ${props => props.theme.colors.primary};
-  }
-  
-  &:hover p {
-    color: ${props => props.theme.name === 'light' ? '#444' : '#CCC'};
-  }
+  width: 100%;
+  padding: 20px 10px;
+  margin: 0 auto;
+  border-radius: 20px;
+  background: ${props => props.theme.name === 'light' 
+    ? 'rgba(255, 255, 255, 0.1)' 
+    : 'rgba(0, 0, 0, 0.2)'};
+  backdrop-filter: blur(5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  z-index: 5;
 `;
 
 function App() {
@@ -148,6 +95,66 @@ function App() {
   // Seleccionar el tema basado en el estado
   const currentTheme = theme === 'light' ? lightTheme : darkTheme;
   const isDarkTheme = theme === 'dark';
+
+  // Datos para las categorías de libros
+  const bookCategories = [
+    { 
+      title: 'Aventuras', 
+      description: 'Increíbles viajes llenos de desafíos. Acompaña a valientes personajes mientras descubren mundos inexplorados y se enfrentan a peligros emocionantes.',
+      image: aventurasImg,
+      color: '#FF6B6B',
+      link: '/category/aventuras'
+    }, 
+    { 
+      title: 'Fantasía', 
+      description: 'Mundos mágicos de ensueño donde todo es posible. Dragones, hadas, hechizos mágicos y criaturas míticas te esperan en estas historias llenas de imaginación.',
+      image: fantasiaImg,
+      color: '#9D85B1',
+      link: '/category/fantasia'
+    }, 
+    { 
+      title: 'Animales', 
+      description: 'Amigos del reino animal con historias sorprendentes. Descubre la vida de mascotas valientes, animales salvajes y criaturas marinas en sus hábitats naturales.',
+      image: animalesImg,
+      color: '#6BAE72',
+      link: '/category/animales'
+    }, 
+    { 
+      title: 'Espacio', 
+      description: 'Viajes a las estrellas y planetas en naves espaciales. Explora las maravillas del universo, conoce extraterrestres amigables y descubre los secretos de las galaxias.',
+      image: espacioImg,
+      color: '#4E7AC7',
+      link: '/category/espacio'
+    }, 
+    { 
+      title: 'Piratas', 
+      description: 'Tesoros y aventuras marinas en los siete mares. Navega con valientes piratas, busca tesoros escondidos en islas misteriosas y descifra mapas antiguos con secretos.',
+      image: piratasImg,
+      color: '#8B4513',
+      link: '/category/piratas'
+    }, 
+    { 
+      title: 'Princesas', 
+      description: 'Reinos encantados y magia en cada página. Acompaña a valientes princesas en sus aventuras, conoce sus amigos mágicos y descubre castillos encantados.',
+      image: princesasImg,
+      color: '#FF69B4',
+      link: '/category/princesas'
+    },
+    { 
+      title: 'Dinosaurios', 
+      description: 'Criaturas prehistóricas fascinantes que dominaron la Tierra. Viaja al pasado y conoce a estos gigantes, desde veloces raptores hasta los imponentes tiranosaurios.',
+      image: dinosauriosImg,
+      color: '#6EB257',
+      link: '/category/dinosaurios'
+    },
+    { 
+      title: 'Misterios', 
+      description: 'Enigmas por resolver y secretos ocultos en cada historia. Conviértete en detective, sigue las pistas y descubre la verdad detrás de intrigantes situaciones.',
+      image: misterioImg,
+      color: '#7851A9',
+      link: '/category/misterios'
+    }
+  ];
 
   return (
     <ThemeProvider theme={currentTheme}>
@@ -281,175 +288,24 @@ function App() {
           />
         </Section>
 
-        {/* Sección de categorías */}
+        {/* Sección de categorías con la cuadrícula de libros */}
         <Section 
           $variant="clouds" 
-          style={{ position: 'relative', paddingTop: '6rem', paddingBottom: '8rem' }}
+          style={{ 
+            position: 'relative', 
+            paddingTop: '6rem', 
+            paddingBottom: '8rem',
+            overflow: 'hidden' 
+          }}
         >
-          <Container>
-            <h2 style={{ 
-              textAlign: 'center', 
-              marginBottom: '3rem',
-              position: 'relative',
-              display: 'inline-block',
-              left: '50%',
-              transform: 'translateX(-50%)'
-            }}>
-              Explora por Categorías
-              <div style={{
-                position: 'absolute',
-                bottom: '-10px',
-                left: '0',
-                width: '100%',
-                height: '3px',
-                background: `linear-gradient(90deg, 
-                  ${currentTheme.colors.primary}, 
-                  ${currentTheme.colors.secondary}
-                )`,
-                borderRadius: '3px'
-              }}></div>
-            </h2>
-            
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-              gap: '2rem'
-            }}>
-              {[
-                { 
-                  name: 'Aventuras', 
-                  description: 'Increíbles viajes llenos de desafíos',
-                  color: '#FF6B6B' 
-                }, 
-                { 
-                  name: 'Fantasía', 
-                  description: 'Mundos mágicos de ensueño',
-                  color: '#9D85B1' 
-                }, 
-                { 
-                  name: 'Animales', 
-                  description: 'Amigos del reino animal',
-                  color: '#6BAE72' 
-                }, 
-                { 
-                  name: 'Espacio', 
-                  description: 'Viajes a las estrellas y planetas',
-                  color: '#4E7AC7' 
-                }, 
-                { 
-                  name: 'Piratas', 
-                  description: 'Tesoros y aventuras marinas',
-                  color: '#8B4513' 
-                }, 
-                { 
-                  name: 'Princesas', 
-                  description: 'Reinos encantados y magia',
-                  color: '#FF69B4' 
-                },
-                { 
-                  name: 'Dinosaurios', 
-                  description: 'Criaturas prehistóricas fascinantes',
-                  color: '#6EB257' 
-                },
-                { 
-                  name: 'Misterios', 
-                  description: 'Enigmas por resolver y secretos',
-                  color: '#7851A9' 
-                }
-              ].map(category => (
-                <CategoryCard key={category.name}>
-                  <div className="icon" style={{ 
-                    backgroundColor: `${category.color}20`, 
-                    color: category.color,
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 1rem auto',
-                    fontSize: '1.8rem',
-                    fontWeight: 'bold',
-                    position: 'relative',
-                    overflow: 'hidden'
-                  }}>
-                    {category.name === 'Aventuras' && (
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 6C3 4.34315 4.34315 3 6 3H8.17157C8.70201 3 9.21071 3.21071 9.58579 3.58579L11.4142 5.41421C11.7893 5.78929 12.298 6 12.8284 6H18C19.6569 6 21 7.34315 21 9V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V6Z" stroke={category.color} strokeWidth="2" />
-                        <path d="M9 14L11 12L13 14L15 12" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 12V18" stroke={category.color} strokeWidth="2" strokeLinecap="round" />
-                      </svg>
-                    )}
-                    {category.name === 'Fantasía' && (
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14.5 4C14.5 5.38071 13.3807 6.5 12 6.5C10.6193 6.5 9.5 5.38071 9.5 4C9.5 2.61929 10.6193 1.5 12 1.5C13.3807 1.5 14.5 2.61929 14.5 4Z" stroke={category.color} strokeWidth="2" />
-                        <path d="M6 12L3 18H8.5L9.5 21H14.5L15.5 18H21L18 12M6 12L9.5 5M6 12H18M18 12L14.5 5M9.5 5L12 3L14.5 5" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                    {category.name === 'Animales' && (
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 11V9C8 6.79086 9.79086 5 12 5C14.2091 5 16 6.79086 16 9V11" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M4 11.5C4 10.1193 5.11929 9 6.5 9C7.88071 9 9 10.1193 9 11.5V14C9 17 7 19 7 19H5C5 19 3 17 3 14V11.5C3 10.1193 4.11929 9 5.5 9" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M20 11.5C20 10.1193 18.8807 9 17.5 9C16.1193 9 15 10.1193 15 11.5V14C15 17 17 19 17 19H19C19 19 21 17 21 14V11.5C21 10.1193 19.8807 9 18.5 9" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 13V17" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 17L10 21" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 17L14 21" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                    {category.name === 'Espacio' && (
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="8" stroke={category.color} strokeWidth="2" />
-                        <circle cx="12" cy="12" r="3" stroke={category.color} strokeWidth="2" />
-                        <path d="M12 4V2" stroke={category.color} strokeWidth="2" strokeLinecap="round" />
-                        <path d="M4 12H2" stroke={category.color} strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 20V22" stroke={category.color} strokeWidth="2" strokeLinecap="round" />
-                        <path d="M20 12H22" stroke={category.color} strokeWidth="2" strokeLinecap="round" />
-                      </svg>
-                    )}
-                    {category.name === 'Piratas' && (
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 6H15C15 8.5 13.5 10 12 10C10.5 10 9 8.5 9 6Z" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 10V20" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M9 15L15 15" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M5 4H19" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M5 20C7 17 9 15 12 15C15 15 17 17 19 20" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                    {category.name === 'Princesas' && (
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 5L5 7L7 9L9 7L7 5Z" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M17 5L15 7L17 9L19 7L17 5Z" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 8L10 10L12 12L14 10L12 8Z" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M7 5L12 8L17 5" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 12V20" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 20L15 17H9L12 20Z" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                    {category.name === 'Dinosaurios' && (
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17 12C17 10.8954 16.1046 10 15 10C13.8954 10 13 10.8954 13 12C13 13.1046 13.8954 14 15 14V18C15 19.1046 14.1046 20 13 20H9" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M10 10C10 8.89543 9.10457 8 8 8H6C4.89543 8 4 8.89543 4 10V14H10V10Z" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M4 14L2 17" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M10 14L12 17" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M13 4L17 8L20 5" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                    {category.name === 'Misterios' && (
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="9" stroke={category.color} strokeWidth="2" />
-                        <path d="M12 16V15.5" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 13.5C12 11 15 11.5 15 9C15 7.5 13.5 6 12 6C10.5 6 9 7 9 9" stroke={category.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                  </div>
-                  <h3>{category.name}</h3>
-                  <p>{category.description}</p>
-                </CategoryCard>
-              ))}
-            </div>
+          <Container style={{ position: 'relative', zIndex: 5 }}>
+            {/* Aquí integramos la cuadrícula de libros */}
+            <BooksSection>
+              <BooksGrid items={bookCategories} />
+            </BooksSection>
           </Container>
           
-          {/* Más personajes */}
+          {/* Personajes alrededor de la sección de libros */}
           <AnimatedSvgCharacter 
             type="wizard"
             message="¡Descubre la magia!"
@@ -460,6 +316,7 @@ function App() {
             duration="5s"
             primaryColor="#9D85B1"
             secondaryColor="#00B7FF"
+            zIndex={10}
           />
           
           <AnimatedSvgCharacter 
@@ -472,6 +329,7 @@ function App() {
             duration="4.5s"
             primaryColor="#A5A5A5"
             secondaryColor="#424242"
+            zIndex={10}
           />
           
           <AnimatedSvgCharacter 
@@ -484,6 +342,7 @@ function App() {
             duration="3.5s"
             primaryColor="#8B4513"
             secondaryColor="#FFC300"
+            zIndex={10}
           />
         </Section>
       </main>

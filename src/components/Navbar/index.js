@@ -200,13 +200,13 @@ const Navbar = ({ theme, toggleTheme }) => {
           </NavLinks>
 
           <AuthButtons>
-            <ThemeToggleButton onClick={toggleTheme} $isDark={isDarkTheme}>
-              {isDarkTheme ? icons.sun : icons.moon}
-            </ThemeToggleButton>
-            <Button size="md" $variant="ocean">Iniciar Sesión</Button>
+            <Button size="sm"  $variant="ocean">Iniciar Sesión</Button>
             <Button size="md" $variant="rainbow">Registrarse</Button>
+            <ThemeToggleButton onClick={toggleTheme} $isDark={isDarkTheme}>
+          {isDarkTheme ? icons.sun : icons.moon}
+          </ThemeToggleButton>
           </AuthButtons>
-
+         
           {/* Mobile Menu Button */}
           <MobileMenuButton onClick={toggleMobileMenu} $isOpen={isMobileMenuOpen}>
             <span></span>
