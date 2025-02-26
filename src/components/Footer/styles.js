@@ -1,22 +1,6 @@
 // src/components/Footer/styles.js
 import styled, { css, keyframes } from 'styled-components';
 
-// Animaciones para los efectos
-const wave1 = keyframes`
-  0% { transform: translate3d(-90px, 0, 0); }
-  100% { transform: translate3d(85px, 0, 0); }
-`;
-
-const wave2 = keyframes`
-  0% { transform: translate3d(-90px, 0, 0); }
-  100% { transform: translate3d(85px, 0, 0); }
-`;
-
-const wave3 = keyframes`
-  0% { transform: translate3d(-90px, 0, 0); }
-  100% { transform: translate3d(85px, 0, 0); }
-`;
-
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
@@ -159,59 +143,62 @@ export const FooterSection = styled.div`
   }
 `;
 
-// Componente de ola espectacular
-export const SpectacularWave = styled.div`
+// Componente de olas simplificado pero mucho más visible
+// Componente de olas mejorado con mayor contraste y tamaño
+export const VisibleWaves = styled.div`
   position: absolute;
-  top: -100px;
+  top: -50px; // Más cerca del footer
   left: 0;
   width: 100%;
-  height: 100px;
-  z-index: 1;
-  overflow: hidden;
+  height: 100px; // El doble de alto
+  overflow: visible; // Permitir que se vea fuera del contenedor
+  z-index: 10; // Asegurarse de que esté por encima de todo
   
-  .waves {
+  &::before, &::after {
+    content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
-    bottom: 0;
     left: 0;
-    right: 0;
-    overflow: hidden;
+    width: 100%;
+    background-color: transparent; // Fondo transparente
+    background-size: 100% 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 150px; // Altura grande para asegurar visibilidad
   }
   
-  .wave {
-    position: absolute;
-    left: -180px;
-    bottom: 0;
-    width: calc(100% + 360px);
-    height: 100%;
-    background-repeat: repeat-x;
-    background-position: 0 bottom;
+  // Primera ola - grande y clara en la parte superior
+  &::before {
+    top: -75px;
+    height: 150px;
+    background-image: ${props => props.theme.name === 'light' 
+      ? 'linear-gradient(to top, #FF6B6B 0%, transparent 100%)' 
+      : 'linear-gradient(to top, #FF6B6B 0%, transparent 100%)'};
+    clip-path: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z'%3E%3C/path%3E%3C/svg%3E");
     transform-origin: center bottom;
+    animation: waveAnimate 10s ease-in-out infinite alternate;
+    border-bottom: 5px solid #FF6B6B; // Borde para asegurar visibilidad
   }
   
-  .wave1 {
-    background-size: 50% 100px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z' fill='${props => props.theme.name === 'light' ? 'rgba(169, 223, 237, 0.8)' : 'rgba(31, 41, 55, 0.8)'}'/%3E%3C/svg%3E");
-    animation: ${wave1} 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
-    z-index: 3;
-    opacity: 1;
+  // Segunda ola - más abajo y con otro color
+  &::after {
+    top: -30px;
+    height: 120px;
+    background-image: ${props => props.theme.name === 'light' 
+      ? 'linear-gradient(to top, #4ECDC4 0%, transparent 100%)' 
+      : 'linear-gradient(to top, #4ECDC4 0%, transparent 100%)'};
+    clip-path: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z'%3E%3C/path%3E%3C/svg%3E");
+    transform-origin: center bottom;
+    animation: waveAnimate 8s ease-in-out infinite alternate-reverse;
+    border-bottom: 5px solid #4ECDC4; // Borde para asegurar visibilidad
   }
   
-  .wave2 {
-    background-size: 50% 120px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z' fill='${props => props.theme.name === 'light' ? 'rgba(135, 206, 235, 0.6)' : 'rgba(15, 23, 42, 0.6)'}'/%3E%3C/svg%3E");
-    animation: ${wave2} 20s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
-    z-index: 2;
-    opacity: 0.75;
-  }
-  
-  .wave3 {
-    background-size: 50% 140px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-31.8z' fill='${props => props.theme.name === 'light' ? 'rgba(173, 216, 230, 0.5)' : 'rgba(17, 24, 39, 0.5)'}'/%3E%3C/svg%3E");
-    animation: ${wave3} 30s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
-    z-index: 1;
-    opacity: 0.5;
+  @keyframes waveAnimate {
+    0% {
+      transform: scale(1.05) translateX(-1%) translateY(2%);
+    }
+    100% {
+      transform: scale(1.15) translateX(1%) translateY(-2%);
+    }
   }
 `;
 

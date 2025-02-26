@@ -1,11 +1,11 @@
-// src/components/Footer/index.js - Versión corregida
+// src/components/Footer/index.js
 import React from 'react';
 import {
   StyledFooter,
   FooterContent,
   FooterSection,
   FooterDecoration,
-  SpectacularWave,
+  VisibleWaves,
   FloatingItem,
   Sparkle,
   EnhancedFooterLogo,
@@ -20,16 +20,10 @@ const Footer = () => {
     <StyledFooter>
       <FooterDecoration />
       
-      {/* Olas espectaculares */}
-      <SpectacularWave>
-        <div className="waves">
-          <div className="wave wave1"></div>
-          <div className="wave wave2"></div>
-          <div className="wave wave3"></div>
-        </div>
-      </SpectacularWave>
+      {/* Nuevo componente de olas con estructura interna */}
+      <VisibleWaves />
       
-      {/* Elementos flotantes decorativos - Eliminado emoji de luna problemático */}
+      {/* Elementos flotantes decorativos */}
       <FloatingItem $size="60px" $top="15%" $left="10%" $duration="8s" $zIndex={2}>
         <span role="img" aria-label="cloud" style={{ fontSize: '60px' }}>☁️</span>
       </FloatingItem>
