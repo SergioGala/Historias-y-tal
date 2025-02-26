@@ -9,7 +9,7 @@ import Container from './components/Layout/Container';
 import Section from './components/Layout/Section';
 import Button from './components/UI/Button';
 import styled from 'styled-components';
-import AnimatedSvgCharacter from './components/AnimatedSvgCharacter.js';
+import AnimatedSvgCharacter from './components/AnimatedSvgCharacter.js/index.js';
 import BooksGrid from './components/InfiniteMenu/BooksGrid.js';
 import aventurasImg from './assets/images/categories/Aventuras.jpg';
 import fantasiaImg from './assets/images/categories/Fantasia.jpg';
@@ -19,6 +19,7 @@ import piratasImg from './assets/images/categories/Piratas.jpg';
 import princesasImg from './assets/images/categories/Princesas.jpg';
 import dinosauriosImg from './assets/images/categories/Dinosaurios.jpg';
 import misterioImg from './assets/images/categories/Misterio.jpg';
+import Footer from './components/Footer/index.js';
 
 // Componente de fondo simple
 const SimpleBackground = styled.div`
@@ -346,6 +347,7 @@ function App() {
           />
         </Section>
       </main>
+      <Footer />
     </ThemeProvider>
   );
 }
